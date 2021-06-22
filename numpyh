@@ -1,0 +1,6 @@
+#!/bin/bash
+#script to open numpy documentation
+
+numpyh() {
+    brave "https://numpy.org/doc/stable/reference/generated/numpy.$1.html";
+}

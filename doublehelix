@@ -1,0 +1,70 @@
+#!/bin/python3
+
+#numpy required to run program
+#import numpy
+#A1= numpy.array()
+#import numpy as np
+#A2= np.array()
+#from numpy import array
+#A3= array()
+#from numpy import *
+
+
+#* pulls the entire library into the current namespace
+from numpy import *
+
+#numerical  variables for amplitude, length and wavelength
+amp = 10
+length = 50
+wavelength = 20
+
+#formula for angular frequency
+omega = (2*pi)/wavelength
+#formula for phi
+phi   = wavelength*(0.470)
+
+#arange creates outputs that are evenly spaced starting from 1 to the last number in the array
+X = arange(1,length)
+#round an array to the given number of decimals
+#sinusoidal function
+Y1 = round_(amp*(sin(omega*X) + 1))
+#sinusoidal function  generating a second wave offset by 180 degrees
+Y2 = round_(amp*(sin(omega*X+phi) + 1))
+
+#creates the thicc
+offset = phi/2
+Z1 = round_((sin(omega*X + offset)+ 1)*1000)
+Z2 =round_((sin(omega*X + phi + offset))*1000)
+
+T1 = " .,.....,. "
+T2 = " *,*****,* "
+clen = len(T1)
+
+H = zeros((length,amp*2+clen),dtype='str')
+H[:,:] = " "
+
+for n,(y1,y2,z1,z2) in enumerate(zip(Y1,Y2,Z1,Z2)):
+    y1=int(y1)
+    y2=int(y2)
+    H[n,y1:y1+clen] = list(T1)
+    H[n,y2:y2+clen] = list(T2)
+
+    # Overwrite if first helix is on top
+    if z1>z2: H[n,y1:y1+clen] = list(T1)
+
+for line in H[:-1]:
+    ln=line.tolist()
+    star_count = 0
+    dot_count = 0
+    for i, char in enumerate(ln):
+        if char == " " and ((star_count > 3 and dot_count < 3) or (dot_count > 3 and star_count < 3)) and ln[25] != " ":
+            ln[i] = "\033[90m_"
+        elif char == "*":
+            ln[i] = "\033[34m*"
+            star_count += 1
+        elif char == ".":
+            ln[i] = "\033[35m."
+            dot_count += 1
+        elif char == ",":
+            ln[i] = "\033[90m,"
+    print("".join(ln))

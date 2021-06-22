@@ -1,0 +1,3 @@
+#!/bin/bash
+#clears terminal 
+clear && doublehelix
