@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd ~
+url="https://ftp.ncbi.nlm.nih.gov/genbank/"
+choice=$(curl -s $url | sed -n 's/<a href="\(.*\.gz\)">.*/\1/p' | fzf)
+echo "Downloading $choice"
+
+curl  $url/$choice > /tmp/$choice
+echo "Extracting $choice"
+7z x /tmp/$choice
+file=$(echo $choice | sed "s/\.gz//")
+mv $file $HOME/Downloads/genebank/$file
+echo "Done"
