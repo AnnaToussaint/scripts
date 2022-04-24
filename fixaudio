@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "Restarting the audio server will require you to restart audio applications."
+if ask "Would you like to restart the audio server?"; then
+    pulseaudio -k && sudo alsa force-reload
+    echo "Done"
+fi
+if ask "Would you like to restart brave/discord/element?"; then
+    killall brave
+    echo "Done"
+fi
+echo "You can now replug your headphones."

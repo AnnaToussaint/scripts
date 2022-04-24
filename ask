@@ -1,0 +1,14 @@
+#!/bin/bash
+# Prompt y/n for a question
+
+ask() {
+    yellow=`tput setaf 3`
+    reset=`tput sgr0`
+    while true; do
+    read -p "${1} ${yellow}y/n${reset} " -sn1
+        echo
+        [[ $REPLY =~ ^[Yy]$ ]] && return 0
+        [[ $REPLY =~ ^[Nn]$ ]] && return 1
+    done
+}
+[[ "${BASH_SOURCE[0]}" != "${0}" ]] || ask "$@"
